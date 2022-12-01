@@ -15,8 +15,10 @@ public class Main {
     tx.begin();
 
     try {
-      Member findMember = em.find(Member.class, 2L);
-      findMember.setName("park");
+
+      Member findMember1 = em.find(Member.class, 4L);
+      Member findMember2 = em.find(Member.class, 4L);
+      System.out.println("Result is : " + (findMember1 == findMember2));
 
       tx.commit();
     } catch (Exception e) {
