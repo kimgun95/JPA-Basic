@@ -17,10 +17,12 @@ public class Main {
     try {
 
       Member findMember1 = em.find(Member.class, 4L);
-      Member findMember2 = em.find(Member.class, 4L);
-      System.out.println("Result is : " + (findMember1 == findMember2));
+      findMember1.setName("hyun");
 
+      em.flush();
+      System.out.println("before commit");
       tx.commit();
+      System.out.println("after commit");
     } catch (Exception e) {
       tx.rollback();
     } finally {
