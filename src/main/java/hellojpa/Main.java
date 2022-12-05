@@ -16,13 +16,8 @@ public class Main {
 
     try {
 
-      Member findMember1 = em.find(Member.class, 4L);
-      findMember1.setName("hyun");
-
-      em.flush();
-      System.out.println("before commit");
       tx.commit();
-      System.out.println("after commit");
+
     } catch (Exception e) {
       tx.rollback();
     } finally {
