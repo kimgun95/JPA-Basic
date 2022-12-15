@@ -15,23 +15,23 @@ public class Main {
     tx.begin();
 
     try {
-      Member member1 = new Member();
-      member1.setUsername("kim");
 
-      Member member2 = new Member();
-      member2.setUsername("lee");
+      //팀 저장
+      Team team = new Team();
+      team.setName("TeamA");
+      em.persist(team);
+      //회원 저장
+      Member member = new Member();
+      member.setUsername("member1");
+      member.setTeam(team); //단방향 연관관계 설정, 참조 저장
+      em.persist(member);
 
-      Member member3 = new Member();
-      member3.setUsername("park");
+      //조회
+      Member findMember = em.find(Member.class, member.getId());
+      //참조를 사용해서 연관관계 조회
+      Team findTeam = findMember.getTeam();
 
-      System.out.println("=========================");
-      em.persist(member1); // db seq -> 1, 51
-      em.persist(member2); // 메모리에서 호출
-      em.persist(member3); // 메모리에서 호출
-      System.out.println("member1의 id 값: " + member1.getId());
-      System.out.println("member2의 id 값: " + member2.getId());
-      System.out.println("member3의 id 값: " + member3.getId());
-      System.out.println("=========================");
+      System.out.println("member의 팀 : " + findTeam.getName());
       tx.commit();
 
     } catch (Exception e) {
