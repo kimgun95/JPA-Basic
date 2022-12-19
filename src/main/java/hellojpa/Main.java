@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.List;
 
 public class Main {
   public static void main(String[] args) {
@@ -16,22 +17,18 @@ public class Main {
 
     try {
 
-      //팀 저장
-      Team team = new Team();
-      team.setName("TeamA");
-      em.persist(team);
-      //회원 저장
+      //저장
       Member member = new Member();
       member.setUsername("member1");
-      member.setTeam(team); //단방향 연관관계 설정, 참조 저장
       em.persist(member);
 
-      //조회
-      Member findMember = em.find(Member.class, member.getId());
-      //참조를 사용해서 연관관계 조회
-      Team findTeam = findMember.getTeam();
+      Team team = new Team();
+      team.setName("TeamA");
 
-      System.out.println("member의 팀 : " + findTeam.getName());
+      member.changeTeam(team); //연관관계의 주인 값 설정
+
+      em.persist(team);
+
       tx.commit();
 
     } catch (Exception e) {
