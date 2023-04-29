@@ -17,17 +17,30 @@ public class Main {
 
     try {
 
-      //저장
       Member member = new Member();
-      member.setUsername("member1");
+      member.setUsername("gun");
       em.persist(member);
+      System.out.println(member.getUsername());
 
-      Team team = new Team();
-      team.setName("TeamA");
+      System.out.println("--------------------------");
 
-      member.changeTeam(team); //연관관계의 주인 값 설정
+      em.remove(member);
+      System.out.println(member.getUsername());
 
-      em.persist(team);
+      em.flush();
+      System.out.println(member.getUsername());
+
+      //저장
+//      Member member = new Member();
+//      member.setUsername("member1");
+//      em.persist(member);
+//
+//      Team team = new Team();
+//      team.setName("TeamA");
+//
+//      member.changeTeam(team); //연관관계의 주인 값 설정
+//
+//      em.persist(team);
 
       tx.commit();
 
