@@ -21,18 +21,28 @@ public class Main {
 
     try {
 
-      Book book = new Book();
-      book.setName("CODE");
-      book.setAuthor("찰스 펫졸드");
+      Member member = new Member();
+      member.setName("gun kim");
+      em.persist(member);
 
-      em.persist(book);
+      em.flush();
+      em.clear();
 
-      tx.commit();
+      Member referenceMember = em.getReference(Member.class, member.getId());
+      System.out.println("referenceMember " + referenceMember.getClass());
+
+      em.detach(referenceMember);
+
+      referenceMember.getName();
 
 
+      //
+      // Member findMember = em.find(Member.class, member.getId());
+      // System.out.println("findMember " + findMember.getClass());
 
     } catch (Exception e) {
       tx.rollback();
+      e.printStackTrace();
     } finally {
       em.close();
     }
