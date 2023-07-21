@@ -3,7 +3,7 @@ package hellojpa.domain;
 import javax.persistence.*;
 
 @Entity(name = "ORDER_ITEM")
-public class OrderItem {
+public class OrderItem extends BaseEntity {
   OrderStatus os = OrderStatus.ORDER;
   @Id
   @GeneratedValue
