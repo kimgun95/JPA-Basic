@@ -1,5 +1,6 @@
 package hellojpa;
 
+import hellojpa.domain.Book;
 import hellojpa.domain.Member;
 import hellojpa.domain.Order;
 import hellojpa.domain.Team;
@@ -20,11 +21,14 @@ public class Main {
 
     try {
 
-      Team team = new Team();
-      team.setName("TeamA");
-      em.persist(team);
-      System.out.println("---------------------");
-      System.out.println(team.getId());
+      Book book = new Book();
+      book.setName("CODE");
+      book.setAuthor("찰스 펫졸드");
+
+      em.persist(book);
+
+      tx.commit();
+
 
 
     } catch (Exception e) {
