@@ -1,5 +1,7 @@
 package hellojpa.domain;
 
+import static javax.persistence.FetchType.*;
+
 import javax.persistence.*;
 
 @Entity(name = "ORDER_ITEM")
@@ -10,11 +12,11 @@ public class OrderItem extends BaseEntity {
   @Column(name = "ORDER_ITEM_ID")
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "ORDER_ID")
   private Order order;
 
-  @ManyToOne
+  @ManyToOne(fetch = LAZY)
   @JoinColumn(name = "ITEM_ID")
   private Item item;
 
