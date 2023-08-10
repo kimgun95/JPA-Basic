@@ -1,5 +1,7 @@
 package hellojpa.domain;
 
+import static javax.persistence.FetchType.*;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +15,27 @@ public class Member extends BaseEntity {
   private Long id;
   private String name;
 
+  @ManyToOne(fetch = LAZY)
+  @JoinColumn(name = "TEAM_ID")
+  private Team team;
   @Embedded
   private Address address;
 
   @OneToMany(mappedBy = "member")
   private List<Order> orders = new ArrayList<>();
+
+  public void setTeam(Team team) {
+    this.team = team;
+    team.getMembers().add(this);
+  }
+
+  public Member(String name) {
+    this.name = name;
+  }
+
+  public Member() {
+
+  }
 
   public Long getId() {
     return id;

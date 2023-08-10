@@ -1,5 +1,8 @@
 package hellojpa;
 
+import java.util.List;
+
+import hellojpa.domain.Address;
 import hellojpa.domain.Book;
 import hellojpa.domain.Member;
 import hellojpa.domain.Order;
@@ -20,25 +23,38 @@ public class Main {
     tx.begin();
 
     try {
+      Member member1 = new Member("gun");
+      Member member2 = new Member("graves");
+      Member member3 = new Member("lee");
+      Team teamA = new Team("A");
+      Team teamB = new Team("B");
+      member1.setTeam(teamA);
+      member2.setTeam(teamA);
+      member3.setTeam(teamB);
 
-      Member member = new Member();
-      member.setName("gun kim");
-      em.persist(member);
+      em.persist(member1);
+      em.persist(member2);
+      em.persist(member3);
+      em.persist(teamA);
+      em.persist(teamB);
 
       em.flush();
       em.clear();
 
-      Member referenceMember = em.getReference(Member.class, member.getId());
-      System.out.println("referenceMember " + referenceMember.getClass());
+      String jpql = "select t from Team t";
+      List<Team> result = em.createQuery(jpql, Team.class)
+          .setFirstResult(0)
+          .setMaxResults(2)
+          .getResultList();
 
-      em.detach(referenceMember);
+      System.out.println("result = " + result.size());
 
-      referenceMember.getName();
-
-
-      //
-      // Member findMember = em.find(Member.class, member.getId());
-      // System.out.println("findMember " + findMember.getClass());
+      for (Team team : result) {
+        System.out.println("team = " + team.getName() + " members = " + team.getMembers().size());
+        for (Member member : team.getMembers()) {
+          System.out.println("-> member = " + member);
+        }
+      }
 
     } catch (Exception e) {
       tx.rollback();
